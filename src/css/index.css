@@ -1,0 +1,66 @@
+body{}
+body > svg{}
+.page{
+  height: 100vh;
+  width: 100vh;
+  display: flex;
+}
+.page > .sticky{
+  position: fixed;
+  width: 100%;
+}
+section.topBar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #D43c33;
+  padding: 17px 10px;
+}
+section.topBar > a{
+  color: white;
+}
+section.topBar > a::after{
+  content: '';
+  border-radius: 40%;
+  border: 1px solid blue;
+
+}
+
+section.topBar .logo > svg{
+  width: 142px;
+  height: 25px;
+}
+section.globalTabs > ol{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+}
+
+section.globalTabs > ol > li{
+  padding: 9px;
+  width: 33.33333333333333333333%;
+
+}
+section.globalTabs > ol > li > div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page > .sticky > .globalTabs > .tabs-nav{}
+.page > .sticky > .globalTabs > .tabs-nav > li > .text{}
+
+.page > .tab-content > .page-1{}
+.page > .tab-content > .page-1 > .playLists{}
+.page > .tab-content > .page-1 > .playLists > .sectionTitle{}
+
+.page > .tab-content > .page-1 > .songs{}
+.page > .tab-content > .page-1 > .songs > li{}
+.page > .tab-content > .page-1 > .songs > li > .cover{}
+.page > .tab-content > .page-1 > .songs > li > .cover > p{}
+
+.page > .tab-content > .page-1 > .art{}
+.page > .tab-content > .page-1 > .art > .logo{}
+.page > .tab-content > .page-1 > .art > .link-wrapper{}
+.page > .tab-content > .page-1 > .art > .copyright{}
