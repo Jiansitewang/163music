@@ -1,13 +1,16 @@
-body{}
+body{font-size: 15px}
 body > svg{}
 .page{
-  height: 100vh;
-  width: 100vh;
+
   display: flex;
 }
+
+/*sticky*/
 .page > .sticky{
   position: fixed;
   width: 100%;
+  top: 0;
+  left: 0;
 }
 section.topBar{
   display: flex;
@@ -18,23 +21,35 @@ section.topBar{
 }
 section.topBar > a{
   color: white;
+  display: inline-block;
+  position: relative;
+  padding: 5px 11px;
+  line-height: 20px;
 }
 section.topBar > a::after{
   content: '';
-  border-radius: 40%;
-  border: 1px solid blue;
-
+  border-radius: 50px;
+  border: 1px solid white;
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  transform: scale(0.5);
+  transform-origin: 0 0;
 }
 
 section.topBar .logo > svg{
   width: 142px;
   height: 25px;
+  vertical-align: top;
 }
 section.globalTabs > ol{
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: white;
+  border-bottom: 1px solid #EEEEEE;
 }
 
 section.globalTabs > ol > li{
@@ -48,19 +63,48 @@ section.globalTabs > ol > li > div{
   align-items: center;
 }
 
-.page > .sticky > .globalTabs > .tabs-nav{}
-.page > .sticky > .globalTabs > .tabs-nav > li > .text{}
 
-.page > .tab-content > .page-1{}
-.page > .tab-content > .page-1 > .playLists{}
-.page > .tab-content > .page-1 > .playLists > .sectionTitle{}
 
-.page > .tab-content > .page-1 > .songs{}
-.page > .tab-content > .page-1 > .songs > li{}
-.page > .tab-content > .page-1 > .songs > li > .cover{}
-.page > .tab-content > .page-1 > .songs > li > .cover > p{}
+/*page-1*/
+.tab-content{
+  margin-top: 105px;
+}
 
-.page > .tab-content > .page-1 > .art{}
-.page > .tab-content > .page-1 > .art > .logo{}
-.page > .tab-content > .page-1 > .art > .link-wrapper{}
-.page > .tab-content > .page-1 > .art > .copyright{}
+.sectionTitle{
+  border-left: 2px solid #D43C33;
+  font-size: 17px;
+  line-height: 1;
+  padding-left: 8px;
+  margin: 20px 0 16px;
+  width: 100%;
+}
+.playLists > ol{
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+}
+.playLists > ol >li{
+  width: 32.8%;
+  margin-bottom: 11px;
+}
+.playLists > ol >li > div{
+
+}
+.playLists > ol >li img{
+  width: 100%;
+}
+.playLists > ol >li > p{
+  font-size: 13px;
+  padding: 0px 2px 0 6px;
+}
+
+.songsList > ol{
+  /*border: 1px solid red;*/
+}
+.songsList > li{
+  border: 1px solid red;
+  position: relative;
+}
