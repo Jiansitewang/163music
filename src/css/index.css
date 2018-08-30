@@ -5,6 +5,27 @@ body > svg{}
   display: flex;
 }
 
+/*page display*/
+
+.tab-content{
+  margin-top: 105px;
+}
+.tab-content > li{
+  display: none;
+}
+.tab-content > li.active{
+  display: block;
+}
+.noCollapse::before{
+  content:'';
+  display: table;
+}
+.noCollapse::after{
+  content:'';
+  display: table;
+}
+
+
 /*sticky*/
 .page > .sticky{
   position: fixed;
@@ -46,23 +67,37 @@ section.topBar .logo > svg{
 }
 section.globalTabs > ol{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /*justify-content: space-between;*/
+  /*align-items: center;*/
   background: white;
   border-bottom: 1px solid #EEEEEE;
 }
 
 section.globalTabs > ol > li{
-  padding: 9px;
-  width: 33.33333333333333333333%;
-
-}
-section.globalTabs > ol > li > div{
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  width: 33.33333333333333333333%;
 }
+section.globalTabs > ol > li.active{
+  color: #d33a31;
+}
+section.globalTabs > ol > li > div{
+  position: relative;
+  padding: 9.5px 5px;
+  cursor: pointer;
 
+}
+section.globalTabs > ol > li.active > div::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  left: 0;
+  bottom: 0px;
+  background: #d33a31;
+}
 
 
 /*page-1*/
@@ -108,3 +143,4 @@ section.globalTabs > ol > li > div{
   border: 1px solid red;
   position: relative;
 }
+
