@@ -136,11 +136,40 @@ section.globalTabs > ol > li.active > div::after{
   padding: 0px 2px 0 6px;
 }
 
-.songsList > ol{
-  /*border: 1px solid red;*/
+
+
+
+section.songsList{}
+section.songsList > .list {
+  margin-top: 18px;
 }
-.songsList > li{
-  border: 1px solid red;
+section.songsList > .list > li > h3{
+  font-size: 17px;
+}
+section.songsList > .list > li > p{
+  font-size: 12px;
+  color: #888;
+}
+section.songsList > .list > li{
   position: relative;
+  margin-left: 10px;
+  padding-bottom: 6px;
+  padding-top: 5px;
+  border-bottom: 1px solid #E2E2E3;
+}
+section.songsList > .list .playButton{
+  position: absolute;
+  right:8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+section.songsList > .list .icon-play{
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  fill: #AAA;
+}
+section.songsList > .list .icon-sq{
+  fill: #FE672E;
 }
 

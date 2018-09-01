@@ -8,4 +8,12 @@
 
 a{text-decoration: none}
 ul,ol{list-style: none}
-h2{font-weight: normal;}
+h2,h3{font-weight: normal;}
+
+body{font:14px/1.5 Helvetica,sans-serif;}
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
