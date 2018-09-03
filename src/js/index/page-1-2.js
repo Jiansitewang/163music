@@ -1,34 +1,35 @@
 {
   let view = {
     el: 'section.songsList',
+    template: `
+      <li>
+        <h3>{{song.name}}</h3>
+        <p>
+          <svg class="icon icon-sq">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sq"></use>
+          </svg>
+          {{song.singer}}
+        </p>
+        <a class="playButton" href="./songPlay.html?id={{song.id}}">
+          <svg class="icon icon-play">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-play"></use>
+          </svg>
+        </a>
+       </li> 
+    `,
     init(){
       this.$el = $(this.el)
-      console.log(this.$el)
     },
     render(data){
       let {songs} = data
-      console.log(songs)
-      console.log(1)
       songs.map((song)=>{
-        let $li = $(`
-            <li>
-              <h3>${song.name}</h3>
-              <p>
-                <svg class="icon icon-sq">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-sq"></use>
-                </svg>
-                ${song.singer}
-              </p>
-              <a class="playButton" href="">
-                <svg class="icon icon-play">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-play"></use>
-                </svg>
-              </a>
-            </li>
-       `)
+        let $li = $(this.template
+          .replace('{{song.name}}',song.name)
+          .replace('{{song.singer}}',song.singer)
+          .replace('{{song.id}}',song.id)
+      )
         this.$el.find('ol.list').append($li)
       })
-      console.log(2)
     }
   }
 
