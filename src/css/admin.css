@@ -107,6 +107,10 @@ body{
     border-radius: 5px;
 
 }
+form > .row > textarea{
+  width: 300px;
+  height: 450px;
+}
 .page > main {
     padding-top: 20px;
 }

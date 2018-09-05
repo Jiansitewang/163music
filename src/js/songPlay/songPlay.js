@@ -1,30 +1,82 @@
 {
   let view = {
     el: '#app',
+    init(){
+      this.$el = $(this.el)
+    },
     render(data){
       let {song, status} = data
-      $(this.el).css('background-image',`url(${song.cover})`)
-      $(this.el).find('img.cover').attr('src',song.cover)
-      if($(this.el).find('audio').attr('src',song.url) !== song.url){
-        $(this.el).find('audio').attr('src',song.url)
+      this.$el.css('background-image',`url(${song.cover})`)
+      this.$el.find('img.cover').attr('src',song.cover)
+      if(this.$el.find('audio').attr('src',song.url) !== song.url){
+        let audio = this.$el.find('audio').attr('src',song.url).get(0)
+        audio.onended = ()=>{
+          // 歌曲结束后发布'songEnd'
+          window.eventHub.emit('songEnd')
+        }
+        audio.ontimeupdate = ()=>{
+          this.showLyrics(audio.currentTime)
+        }
       }
-      $(this.el).find('audio').attr('src',song.url)
+      this.$el.find('audio').attr('src',song.url)
       if(status === 'playing'){
-        $(this.el).find('.disc-container').addClass('playing')
+        this.$el.find('.disc-container').addClass('playing')
       }else {
-        $(this.el).find('.disc-container').removeClass('playing')
+        this.$el.find('.disc-container').removeClass('playing')
       }
+      // 替换歌曲名字
+      this.$el.find('.song-description > h1').text(song.name)
+
+      // 歌词生成/插入页面
+      let {lyrics} = song
+      let array = lyrics.split('\n').map((string)=>{
+        let p = document.createElement('p')
+        let regex = /\[([\d:.]+)\](.+)/
+        let matches = string.match(regex)
+        if(matches){
+          p.textContent = matches[2]
+          let time = matches[1]
+          let parts = time.split(':')
+          let min = parts[0]
+          let sec = parts[1]
+          let newTime = parseInt(min,10) * 60 + parseFloat(sec,10)
+          p.setAttribute('data-time',newTime)
+        }else{
+          p.textContent = string
+        }
+        this.$el.find('.lyric > .lines').append(p)
+      })
+
     },
-    // render(data){
-    //   $(this.el).html(this.template.replace('{{url}}',data.url))
-    // },
-    play(){
-      let audio = $(this.el).find('audio')[0]
-      audio.play()
+    showLyrics(time){
+      let allP = this.$el.find('.lyric>.lines>p')
+      let p
+      for(let i =0;i<allP.length;i++){
+        if(i===allP.length-1){
+          p = allP[i]
+          break
+        }else{
+          let currentTime = allP.eq(i).attr('data-time')
+          let nextTime = allP.eq(i+1).attr('data-time')
+          if(currentTime <= time && time < nextTime){
+            p = allP[i]
+            break
+          }
+        }
+      }
+      let pHeight = p.getBoundingClientRect().top
+      let linesHeight = this.$el.find('.lyric>.lines')[0].getBoundingClientRect().top
+      let height = pHeight - linesHeight
+      this.$el.find('.lyric>.lines').css({
+        transform: `translateY(${- (height - 25)}px)`
+      })
+      $(p).addClass('active').siblings('.active').removeClass('active')
+    },
+    play(){// 播放
+      this.$el.find('audio')[0].play()
      },
-    pause(){
-      let audio = $(this.el).find('audio')[0]
-      audio.pause()
+    pause(){//暂停
+      this.$el.find('audio')[0].pause()
     }
   }
 
@@ -36,7 +88,8 @@
         name: '',
         singer: '',
         url: '',
-        cover: ''
+        cover: '',
+        lyrics: ''
       },
       status: 'paused'
     },
@@ -53,6 +106,7 @@
   let controller = {
     init(view,model){
       this.view = view
+      this.view.init()
       this.model = model
       let id = this.getSongId()
       this.model.get(id).then(()=>{
@@ -71,6 +125,11 @@
         this.model.data.status = 'paused'
         this.view.render(this.model.data)
         this.view.pause()
+      })
+      // 歌曲结束后更新status
+      window.eventHub.on('songEnd',()=>{
+        this.model.data.status = 'paused'
+        this.view.render(this.model.data)
       })
     },
     getSongId(){
