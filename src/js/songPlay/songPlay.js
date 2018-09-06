@@ -6,9 +6,20 @@
     },
     render(data){
       let {song, status} = data
-      this.$el.css('background-image',`url(${song.cover})`)
+      // 背景图片
+
+      let pageElement = this.$el
+      console.log(1)
+      let beforeStyle = window.getComputedStyle(pageElement, '::before')
+      console.log(2)
+      console.log(beforeStyle.width);
+
+
+      // this.$el.css('background-image',`url(${song.cover})`)
+      // disc 中间的专辑cover
       this.$el.find('img.cover').attr('src',song.cover)
-      if(this.$el.find('audio').attr('src',song.url) !== song.url){
+      //这里if判断歌曲的url是否一致，一致则不刷新audio
+      if(this.$el.find('audio').attr('src') !== song.url){
         let audio = this.$el.find('audio').attr('src',song.url).get(0)
         audio.onended = ()=>{
           // 歌曲结束后发布'songEnd'
@@ -18,7 +29,7 @@
           this.showLyrics(audio.currentTime)
         }
       }
-      this.$el.find('audio').attr('src',song.url)
+
       if(status === 'playing'){
         this.$el.find('.disc-container').addClass('playing')
       }else {
@@ -51,10 +62,11 @@
     showLyrics(time){
       let allP = this.$el.find('.lyric>.lines>p')
       let p
+
       for(let i =0;i<allP.length;i++){
         if(i===allP.length-1){
           p = allP[i]
-          break
+          return p
         }else{
           let currentTime = allP.eq(i).attr('data-time')
           let nextTime = allP.eq(i+1).attr('data-time')
@@ -64,12 +76,23 @@
           }
         }
       }
+
       let pHeight = p.getBoundingClientRect().top
       let linesHeight = this.$el.find('.lyric>.lines')[0].getBoundingClientRect().top
       let height = pHeight - linesHeight
-      this.$el.find('.lyric>.lines').css({
-        transform: `translateY(${- (height - 25)}px)`
-      })
+      if(height === 0){
+        this.$el.find('.lyric>.lines').css({
+          transform: `translateY(${- height}px)`
+        })
+      }else{
+        this.$el.find('.lyric>.lines').css({
+          transform: `translateY(${- (height - 24)}px)`
+        })
+      }
+      // this.$el.find('.lyric>.lines').css({
+      //   transform: `translateY(${- height}px)`
+      //   // transform: `translateY(${- (height - 24)}px)`
+      // })
       $(p).addClass('active').siblings('.active').removeClass('active')
     },
     play(){// 播放
